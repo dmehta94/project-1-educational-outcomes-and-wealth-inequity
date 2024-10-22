@@ -1,5 +1,15 @@
-# Project 1: World Development Statistics
+# Project 1: World Development Statistics (Replace with Actual Title)
 Make sure the readme file is called, "README.md," so it displays by defaults on GitHub.
+
+## Table of Contents
+1) [Overview](#Overview) 
+2) [Data](#Data-Dictionary)
+3) [Requirements](#Requirements)
+4) [Executive Summary](#Executive-Summary)
+    1) [Purpose](#Purpose)
+    2) [Methods](#Methods)
+    3) [Findings](#Findings)
+    4) [Next Steps](#Next-Steps)
 
 ## Overview
 People who don't scroll any further should be able to tell what your project is about at a glance. The overview should include:
@@ -51,7 +61,7 @@ means 98.1%)|
 
 Provide a separate dictionary of any data you have generated/engineered yourself. To hyperlink, the syntax is as follow [Link name](https://www.website.ext)
 
-# Executive Summary
+## Executive Summary
 
 An executive summary is a brief summary of the key points and objectives of a project. The purpose of an executive summary is to provide a high-level overview of the project and to give readers a clear understanding of what the project is about and what it aims to achieve.
 
@@ -72,4 +82,37 @@ findings, even if they don't have time to read the entire document.
 
 Have any questions? Let us know!
 
-**Important note: In order for your readme to display as the default readme file in github, it will need to be named `README.md`. This means that before submitting your project, you should either delete or replace the original `README.md` with your own version!** 
+**Important note: In order, for your readme to display as the default readme file in GitHub, it will need to be named `README.md`. This means that before submitting your project, you should either delete or replace the original `README.md` with your own version!** 
+
+### Purpose
+- Reiterate the problem statement
+- "I set out to find X, Y, and Z"
+- "X, Y, and Z are important because..." (relate to stakeholders)
+
+### Methods
+- What you did
+- How you changed the data
+- Why you made the choices you did
+- Explain any big decisions
+- Split into subsections for easy reading
+
+#### Data Handling
+#### EDA
+#### Modeling
+#### Any Other Methods
+
+### Findings
+- "Found X and Y"
+- Keep it positive!
+
+### Next Steps
+- "Find Z"
+- Explain how you might go about finding Z
+
+### Contact
+- Social links (LinkedIn, Twitter, etc)
+
+### Making an image
+![Image Alt-Text](link-to-file-or-url)
+
+![Spongebob](./images/breathe_in.png)
