@@ -12,6 +12,8 @@ Make sure the readme file is called, "README.md," so it displays by defaults on 
     4) [Next Steps](#Next-Steps)
 
 ## Overview
+
+While the United States is globally accepted as an economic powerhouse, our skilled labor force is dwindling alongside our global education ranking falling well behind our economic peers. To our credit, the US affords every child the opportunity to pursue a basic K-12 education, but our outcomes spell trouble for our future economic output. We seek to explore whether global educational outcomes in the 20 years from 1998 to 2017 covary with wealth inequality, a concept that has taken more prominently to the national policy stage in the past decade.
 People who don't scroll any further should be able to tell what your project is about at a glance. The overview should include:
 
 - Problem Statement
