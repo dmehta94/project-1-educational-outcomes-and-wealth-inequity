@@ -13,13 +13,15 @@ Make sure the readme file is called, "README.md," so it displays by defaults on 
 
 ## Overview
 
-[The United States spends more per student than any country in the world](https://nces.ed.gov/blogs/nces/post/education-at-a-glance-2023-putting-u-s-data-in-a-global-context) (save Luxembourg), yet we still only have an 87% completion rate for upper secondary education according to the [Organization for Economic Cooperation and Development's (OECD) annual report] [*Education at a Glance*](https://www.oecd-ilibrary.org/sites/e13bef63-en/1/3/3/3/index.html?itemId=/content/publication/e13bef63-en&_csp_=a4f4b3d408c9dd70d167f10de61b8717&itemIGO=oecd&itemContentType=book#annex-d1e22113-dea59c5599). Comparatively, Lithuania, who spends about 3/8 as much as the US per student, has a comparable upper secondary completion rate. This suggests that there are other factors at play, including wasted expenditure, which see our educational outcomes stagnating and, in some cases dropping.
+[The United States spends more per student than any country in the world](https://nces.ed.gov/blogs/nces/post/education-at-a-glance-2023-putting-u-s-data-in-a-global-context) (save Luxembourg), yet we still only have an 87% completion rate for upper secondary education according to the Organization for Economic Cooperation and Development's (OECD) annual [*Education at a Glance*](https://www.oecd-ilibrary.org/sites/e13bef63-en/1/3/3/3/index.html?itemId=/content/publication/e13bef63-en&_csp_=a4f4b3d408c9dd70d167f10de61b8717&itemIGO=oecd&itemContentType=book#annex-d1e22113-dea59c5599) report. Comparatively, Lithuania, who spends about 3/8 as much as the US per student, has a comparable upper secondary completion rate. This suggests that there are other factors at play, including wasted expenditure, which see our educational outcomes stagnating and, in some cases dropping.
 
-Often left unconsidered is the "wealth gap," the disparity in national share of wealth held by those of the most means and those of the fewest. We strive to determine whether a nation's level of wealth inequality covaries with educational outcomes for that country. To do so, we consider literacy rates, duration of compulsary education, and attainment of a Bachelor's degree compared against the share of pretax income held by the 10% of individuals by wealth and the Gini coefficient over the 20 year span from 1998 to 2017.
-People who don't scroll any further should be able to tell what your project is about at a glance. The overview should include:
+Often left unconsidered is the "wealth gap," the disparity in national share of wealth held by those of the most means and those of the fewest. We strive to determine whether educational outcomes and wealth inequality covary significantly enough across the world to warrant further exploration in pursuit of improving education attainment levels in the United States. To do so, we consider literacy rates, duration of compulsary education, and attainment of a Bachelor's degree compared against the share of pretax income held by the 10% of individuals by wealth and the Gini coefficient over the 20 year span from 1998 to 2017.
+People who don't scroll any further should be able to tell what your project is about at a glance.
 
-- Problem Statement
-- Background Information
+The overview should include:
+
+- ~~Problem Statement~~
+- ~~Background Information~~
 - Justification
 - Overview of Results
 
