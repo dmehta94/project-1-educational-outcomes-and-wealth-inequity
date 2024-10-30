@@ -1,5 +1,5 @@
 # Project 1: World Development Statistics (Replace with Actual Title)
-Make sure the readme file is called, "README.md," so it displays by defaults on GitHub.
+*Author: Deval Mehta*
 
 ## Table of Contents
 1) [Overview](#Overview) 
@@ -30,8 +30,6 @@ Often left unconsidered is the "wealth gap," the disparity in national share of 
 
 ## Executive Summary
 
-
-
 An executive summary is a brief summary of the key points and objectives of a project. The purpose of an executive summary is to provide a high-level overview of the project and to give readers a clear understanding of what the project is about and what it aims to achieve.
 
 An effective executive summary should provide a clear and concise summary of the project, including its goals, methodology, key findings, and conclusions. It should be written in a way that is easy to understand for a broad audience, including those who may not have technical expertise in the project's subject matter.
@@ -54,11 +52,13 @@ Have any questions? Let us know!
 **Important note: In order, for your readme to display as the default readme file in GitHub, it will need to be named `README.md`. This means that before submitting your project, you should either delete or replace the original `README.md` with your own version!** 
 
 ### Purpose
-- Reiterate the problem statement
-- "I set out to find X, Y, and Z"
-- "X, Y, and Z are important because..." (relate to stakeholders)
+Wealth inequality often finds itself on the national policy stage, increasingly so following the Great Recession of the 2000s and the galvanization of working class Americans in the 2016 Presidential election. Seldom do we hear about its potential relationship to education outcomes. At a glance, one might believe the two to be totally unrelated, but there is, in principle a feedback loop, where a more educated public will elect to improve the quality of life for themselves and others, sometimes through wealth redistribution, which then leads to more people having an opportunity to reach higher outcomes. As such, we suspect there might be a reasonable level of covariance between education outcomes in a nation and their level of wealth inequality.
+
+In particular, such a result would mean the United States as a whole ought to push for a more level wealth distribution than we have historically seen. The null hypothesis would mean that the path upon which we, as a country, have embarked, where disparities in wealth among the top 10% and bottom 50% grow, should remain the status quo.
 
 ### Methods
+
+The analysis herein is relatively simple. We consider the duration of compulsary education, the percent of the population (divided by sex as well) of 25 years of age or more who hold at least a bachelor's degree, the Gini Index, which measures the difference between an equal distribution of wealth across the population and the existing distribution of wealth, and the share of national wealth held by the wealthiest 10% of individuals across the 20 year span from 1998 to 2017 and across 14 countries for whom we could acquire complete data on the Gini index. We opted for a more recent analysis, as there was more data available and for the 14 countries selected to maximize the information we could gain.
 - What you did
 - How you changed the data
 - Why you made the choices you did
@@ -66,22 +66,15 @@ Have any questions? Let us know!
 - Split into subsections for easy reading
 
 #### Data Handling
+Much of the data files were removed for our analysis, as stated above, as they were incredibly sparse with information. Further, a more recent analysis will yield more accurate results, as the wealth share and education outcomes are a function of legislation passed and enforced. Some older laws have been repealed and newer ones (such as No Child Left Behind in the US) have been passed, which impact both wealth distribution and outcomes, but are not specifically accounted in our data otherwise.
+
 #### EDA
-#### Modeling
-#### Any Other Methods
+We created only basic lineplots with the data we had available, as time did not permit shuffling the dataframes to organize the data by country, rather than by metric.
 
 ### Findings
-- "Found X and Y"
-- Keep it positive!
+With what little data we have available to us, we note a couple of trends. Among our sample, education outcomes appear to be on the rise, year over year, while wealth inequality is either stagnant, oscillatory, or increasing. **The lack of a clear trend on the part of wealth inequality makes it difficult to draw any conclusions regarding a relationship between the two.** In addition, while the Gini coefficient is rising for most of our sample, the share of national wealth among the top 10% does not appear to rise at a comparable rate, suggesting that perhaps more of the national wealth share has been distributed among the 50th to 90th percentiles of the population, which could mean higher outcomes for a portion of the population. Gender bias does not appear to have an impact either, as the percent attainment of a Bachelor's degree appears to take the same ratio for men and women over time.
 
 ### Next Steps
-- "Find Z"
-- Explain how you might go about finding Z
+A more careful analysis in the future would see the dataframes shuffled so that each one represents a different nation with more complete data and perhaps some more accurate imputation techniques to cover missing data. Incorporating more basic metrics for education outcomes, such as literacy rate, secondary school completion rate, and math achievement by the end of secondary education could yield more accurate results.
 
-### Contact
-- Social links (LinkedIn, Twitter, etc)
-
-### Making an image
-![Image Alt-Text](link-to-file-or-url)
-
-![Spongebob](./images/breathe_in.png)
+Further, if an apt covariance were to be found with more complete data, we could create various regression models to determine just how influential education outcomes and wealth inequality are on each other.
