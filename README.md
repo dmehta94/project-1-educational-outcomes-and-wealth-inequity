@@ -1,4 +1,4 @@
-# Project 1: World Development Statistics (Replace with Actual Title)
+# Project 1: World Development Statistics - Education Outcomes and Wealth Inequality
 *Author: Deval Mehta*
 
 ## Table of Contents
