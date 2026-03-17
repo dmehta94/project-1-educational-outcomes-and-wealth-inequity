@@ -1,80 +1,140 @@
-# Project 1: World Development Statistics - Education Outcomes and Wealth Inequality
-*Author: Deval Mehta*
+# Education Outcomes and Wealth Inequality: A Global EDA
 
-## Table of Contents
-1) [Overview](#Overview) 
-2) [Data](#Data-Dictionary)
-3) [Requirements](#Requirements)
-4) [Executive Summary](#Executive-Summary)
-    1) [Purpose](#Purpose)
-    2) [Methods](#Methods)
-    3) [Findings](#Findings)
-    4) [Next Steps](#Next-Steps)
+**Author:** Deval Mehta &nbsp;|&nbsp; **Context:** General Assembly Data Science Bootcamp — Project 1 &nbsp;|&nbsp; **Stack:** Python, pandas, Matplotlib, Seaborn, NumPy
 
-## Overview
+---
 
-[The United States spends more per student than any country in the world](https://nces.ed.gov/blogs/nces/post/education-at-a-glance-2023-putting-u-s-data-in-a-global-context) (save Luxembourg), yet we still only have an 87% completion rate for upper secondary education according to the Organization for Economic Cooperation and Development's (OECD) annual [*Education at a Glance*](https://www.oecd-ilibrary.org/sites/e13bef63-en/1/3/3/3/index.html?itemId=/content/publication/e13bef63-en&_csp_=a4f4b3d408c9dd70d167f10de61b8717&itemIGO=oecd&itemContentType=book#annex-d1e22113-dea59c5599) report. Comparatively, Lithuania, who spends about 3/8 as much as the US per student, has a comparable upper secondary completion rate. This suggests that there are other factors at play, including wasted expenditure, which see our educational outcomes stagnating and, in some cases dropping.
+## What It Does
 
-Often left unconsidered is the "wealth gap," the disparity in national share of wealth held by those of the most means and those of the fewest. We strive to determine whether educational outcomes and wealth inequality covary significantly enough across the world to warrant further exploration in pursuit of improving education attainment levels in the United States. To do so, we consider duration of compulsary education and the percent of the population over 25 to have attained at least a Bachelor's degree compared against the share of pretax income held by the 10% of individuals by wealth and the Gini coefficient over the 20 year span from 1998 to 2017. Due to a lack of relevant data, we find the results to be rather inconclusive, but there may still be promising work to be done with more widely available data and imputation methods for missing data.
+This project explores whether educational attainment and wealth inequality move together across a 14-country sample over the 20-year span from 1998 to 2017, using data from [Gapminder](https://www.gapminder.org/about/) and the [World Inequality Database](https://wid.world/). I clean and align six datasets — compulsory education duration, Bachelor's degree attainment by sex, Gini index, and top-10% pre-tax income share — then visualize country-level trends to assess whether a covariance signal is strong enough to justify further modeling work. The short answer is no, not with this data — but the analysis surfaces exactly why, and what would be needed to get there.
 
-## Data Dictionary
+---
 
-|Dataset|Type|Description|
+## Why I Built This
+
+**Context:** This was Project 1 of the General Assembly Data Science Bootcamp, the first substantial analytical project I completed in the program. At this point in the curriculum I had covered Python fundamentals, pandas, and basic data visualization — but not yet statistical modeling. The project brief asked us to pick datasets from Gapminder and pose a question. I came in with a specific one: given the amount the US spends per student relative to its educational outcomes, is wealth inequality part of the story?
+
+**Problem:** The United States [spends more per student than nearly any country in the world](https://nces.ed.gov/blogs/nces/post/education-at-a-glance-2023-putting-u-s-data-in-a-global-context), yet upper secondary completion sits around 87% — comparable to Lithuania, which spends roughly 3/8 as much per student. This gap suggests that spending alone doesn't determine outcomes. Wealth inequality is one plausible explanatory factor: in theory, a more concentrated wealth distribution limits economic mobility, which limits educational access, which feeds back into further concentration. I wanted to see whether the data supported investigating that feedback loop.
+
+**Solution approach:** I sourced six datasets from Gapminder and the World Inequality Database, aligned them to a common 14-country sample for 1998–2017 (the constraint was Gini index data availability), and produced time-series visualizations of each variable. The goal wasn't a model — it was a data quality and signal check: is there enough of a trend in the inequality variables to make a regression meaningful?
+
+**Results:** Education attainment rose consistently across the sample. Wealth inequality — measured by both the Gini index and top-10% income share — showed no consistent directional trend. Some countries stagnated, some oscillated, a few rose. Without a coherent inequality trend to match against the education trend, the covariance question can't be answered with this data. I documented what data and methods would be needed to revisit the question meaningfully.
+
+---
+
+## What I Learned
+
+**Technical skills**
+- Writing manual implementations of statistical functions (`mean`, `stdev`) from first principles — the kind of exercise that builds genuine intuition for what libraries are actually doing
+- Multi-dataset alignment: using one dataset (Gini index) as the anchor for country selection across all others, rather than trying to merge on a sparse union
+- Transposing DataFrames before passing to `sns.lineplot()` to plot country-level time series — a non-obvious pandas pattern that I still reach for in EDA
+- Building reusable cleaning functions (`trim_to_countries_of_interest`) instead of repeating operations manually
+
+**Data science insights**
+- Data availability is a research design constraint, not just a cleaning nuisance. The Gini index limited the sample to 14 countries — some high-income, some middle-income, none low-income. That selection bias means the findings (or lack thereof) don't generalize beyond this specific slice of the income distribution
+- Inconclusive results are legitimate findings. The absence of a clear inequality trend is informative: it tells you that this question needs either a longer time horizon, a different inequality measure, or a different analytical frame (e.g., cross-sectional rather than longitudinal)
+- Visualizing both the raw time series and the aggregate (mean over time) together tells a richer story than either alone
+
+**Software engineering practices**
+- This was my first project using pandas in earnest. Post-bootcamp standardization surfaced a number of `inplace=True` calls and missing `random_state` equivalents — patterns I've since corrected in subsequent projects
+- I defined the year range as a list in one cell and reconstructed it by hand in another. Defining shared constants once (as `YEAR_COLUMNS`) and referencing them everywhere is a habit I established in later projects
+
+**Unexpected learnings**
+- The standard deviation dictionary comprehension had a subtle bug: `trimmed_gini_index.columns[1:]` skipped `1998` and included the `time_averaged_value` column I had added earlier, meaning `stdev()` ran on the wrong set of columns. Catching this during standardization reinforced how much a module-level constant (`YEAR_COLUMNS`) would have prevented the issue entirely
+- Gender doesn't appear to drive variation in Bachelor's attainment rates within this sample — the male and female trends track closely. That's its own finding, though it may reflect the narrow country sample more than a global pattern
+
+**Design decisions**
+- I chose to limit the sample to countries with *complete* Gini index data rather than imputing. With only 14 fully-observed countries available, imputing the Gini for additional countries would have introduced more noise than signal
+- I excluded Peru despite it meeting the Gini completeness criterion because the pre-tax income share dataset had no data for it — another reminder that cross-dataset completeness is the binding constraint
+- I used the 1998–2017 window rather than maximizing the historical range, because older legislation (repealed or superseded) would have complicated the interpretation of any inequality–education relationship
+
+---
+
+## Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/dmehta94/project-1-educational-outcomes-and-wealth-inequity.git
+cd project-1-educational-outcomes-and-wealth-inequity
+
+# Install dependencies
+pip install numpy pandas matplotlib seaborn jupyter
+
+# Launch the notebook
+jupyter notebook code/project1-Deval.ipynb
+```
+
+**Data:** All datasets are included in the `data/` directory. Raw source files (from Gapminder and WID) and cleaned, trimmed versions are both present. The notebook reads from the raw files and writes the trimmed versions — running it end-to-end will overwrite the existing trimmed CSVs, which is fine.
+
+**Directory structure:**
+```
+project-1-educational-outcomes-and-wealth-inequity/
+├── code/
+│   └── project1-Deval.ipynb    # Main analysis notebook
+├── data/
+│   ├── duration_compulsary_education.csv
+│   ├── educ_attainment_ba_female.csv
+│   ├── educ_attainment_ba_male.csv
+│   ├── educ_attainment_ba_total.csv
+│   ├── inequality_index_gini.csv
+│   ├── wid_pretax_income_share_top10.csv
+│   ├── trimmed_*.csv            # Cleaned versions written by the notebook
+│   └── population.csv           # Provided but not used in final analysis
+└── README.md
+```
+
+---
+
+## Sample Output
+
+The notebook produces six time-series line plots — one per dataset — showing country-level trends from 1998 to 2017. The education attainment plots show consistent upward trends across almost all 14 countries. The Gini and top-10% income share plots are more varied: the US and Russia show rising inequality across the period, while several European countries are relatively stable. No country shows a clearly falling inequality trend, which is the key null finding.
+
+---
+
+## Technical Details
+
+**Stack:** Python 3, pandas, NumPy, Matplotlib, Seaborn
+
+**Datasets and sources:**
+
+| Dataset | Source | Description |
 |---|---|---|
-|trimmed_duration_compulsary_education|float|Number of years of compulsary education by year.|
-|trimmed_educ_attainment_ba_total|float|Percent of national population age 25 and older who hold at least a Bachelor's Degree by year.|
-|trimmed_educ_attainment_ba_female|float|Percent of women age 25 and older who hold at least a Bachelor's Degree by year.|
-|trimmed_educ_attainment_ba_male|float|Percent of men age 25 and older who hold at least a Bachelor's Degree by year.|
-|trimmed_gini_index|float|[Gini Index](https://ourworldindata.org/what-is-the-gini-coefficient) by year, a measure of wealth inequality.
-|trimmed_wid_pretax_income_share_top10|float|Percent share of national wealth held by the wealthiest 10% of individuals by year|
+| `duration_compulsary_education.csv` | Gapminder | Years of compulsory education by country and year |
+| `educ_attainment_ba_total.csv` | Gapminder | % of population 25+ with at least a Bachelor's degree |
+| `educ_attainment_ba_female.csv` | Gapminder | Same, female population only |
+| `educ_attainment_ba_male.csv` | Gapminder | Same, male population only |
+| `inequality_index_gini.csv` | Gapminder | Gini coefficient by country and year |
+| `wid_pretax_income_share_top10.csv` | World Inequality Database | Pre-tax income share held by top 10% |
 
-## Executive Summary
+**14-country sample:** Belarus, Canada, Costa Rica, El Salvador, France, Georgia, Germany, Indonesia, Luxembourg, Moldova, Panama, Russia, UK, USA — selected because these are the only countries with complete Gini index data for all 20 years in the analysis window.
 
-An executive summary is a brief summary of the key points and objectives of a project. The purpose of an executive summary is to provide a high-level overview of the project and to give readers a clear understanding of what the project is about and what it aims to achieve.
+**Key functions:**
 
-An effective executive summary should provide a clear and concise summary of the project, including its goals, methodology, key findings, and conclusions. It should be written in a way that is easy to understand for a broad audience, including those who may not have technical expertise in the project's subject matter.
+- `mean(number_list)` — manual mean implementation (bootcamp exercise; demonstrates understanding of the underlying computation)
+- `stdev(number_list)` — manual population standard deviation, building on `mean()`
+- `abbrev_num_to_float(abbrev_number)` — converts abbreviated numeric strings (e.g., `'5M'`, `'45K'`) to floats; used for cleaning the population dataset
+- `trim_to_countries_of_interest(df)` — filters a DataFrame to the 14-country sample and sets country as the index
 
-Some key elements that may be included in an executive summary are:
+---
 
-* A summary of the problem or challenge the project is addressing
-* An explanation of the project's goals and objectives
-* A summary of the project methodology, including any data sources, data cleaning, EDA & analysis techniques, or models used
-* A summary of the key findings or insights generated by the project. Feel free to include images of your visualizations here!
-* A conclusion that summarizes the main results and their implications. You may want to consider the following question as you craft your conclusion: "How can the audience 
-use the insights generated by this project to inform their decisions or actions?"
-* Next steps - This can include recommendations for future research or analysis, ideas for how to improve upon the project's methodology or data sources, and/or suggestions for how to extend or expand the project in new directions.
+## Limitations
 
-By including an executive summary in your project's readme file, you can help ensure that readers have a clear understanding of the project's purpose, methodology, and 
-findings, even if they don't have time to read the entire document.
+- **The sample is too small and too selected for strong conclusions.** 14 countries with complete Gini data is a sparse and non-random sample — it over-represents middle- and high-income countries and under-represents the parts of the world where both education access and wealth inequality show the most variation
+- **No formal correlation or regression analysis.** The project was scoped to EDA visualization only. A Pearson or Spearman correlation between the time-averaged Gini and time-averaged Bachelor's attainment per country would have been a natural next step
+- **The education attainment data is sparse.** Only Canada and the USA have complete 20-year coverage in the Bachelor's attainment datasets — most other countries have gaps, which limits what can be inferred from the line plots
+- **Compulsory education duration changed little.** Duration of compulsory education barely varied across countries or over time in this sample, making it uninformative as a predictor. A more useful measure might have been secondary school enrollment or completion rates
+- **No log transform on population data.** The `abbrev_num_to_float()` function was written for cleaning the population dataset, but population was ultimately not used in the analysis. Including population as a weighting factor (e.g., population-weighted inequality measures) would have been an improvement
 
-Have any questions? Let us know!
+---
 
-**Important note: In order, for your readme to display as the default readme file in GitHub, it will need to be named `README.md`. This means that before submitting your project, you should either delete or replace the original `README.md` with your own version!** 
+## Credits
 
-### Purpose
-Wealth inequality often finds itself on the national policy stage, increasingly so following the Great Recession of the 2000s and the galvanization of working class Americans in the 2016 Presidential election. Seldom do we hear about its potential relationship to education outcomes. At a glance, one might believe the two to be totally unrelated, but there is, in principle a feedback loop, where a more educated public will elect to improve the quality of life for themselves and others, sometimes through wealth redistribution, which then leads to more people having an opportunity to reach higher outcomes. As such, we suspect there might be a reasonable level of covariance between education outcomes in a nation and their level of wealth inequality.
+This project was completed independently as part of the General Assembly Data Science Bootcamp (Project 1). Data sourced from [Gapminder](https://www.gapminder.org/) and the [World Inequality Database](https://wid.world/). Post-bootcamp documentation, code standardization, and this README were produced in collaboration with Claude AI (Anthropic, 2025).
 
-In particular, such a result would mean the United States as a whole ought to push for a more level wealth distribution than we have historically seen. The null hypothesis would mean that the path upon which we, as a country, have embarked, where disparities in wealth among the top 10% and bottom 50% grow, should remain the status quo.
+---
 
-### Methods
+## License
 
-The analysis herein is relatively simple. We consider the duration of compulsary education, the percent of the population (divided by sex as well) of 25 years of age or more who hold at least a bachelor's degree, the Gini Index, which measures the difference between an equal distribution of wealth across the population and the existing distribution of wealth, and the share of national wealth held by the wealthiest 10% of individuals across the 20 year span from 1998 to 2017 and across 14 countries for whom we could acquire complete data on the Gini index. We opted for a more recent analysis, as there was more data available and for the 14 countries selected to maximize the information we could gain.
-- What you did
-- How you changed the data
-- Why you made the choices you did
-- Explain any big decisions
-- Split into subsections for easy reading
+MIT License.
 
-#### Data Handling
-Much of the data files were removed for our analysis, as stated above, as they were incredibly sparse with information. Further, a more recent analysis will yield more accurate results, as the wealth share and education outcomes are a function of legislation passed and enforced. Some older laws have been repealed and newer ones (such as No Child Left Behind in the US) have been passed, which impact both wealth distribution and outcomes, but are not specifically accounted in our data otherwise.
-
-#### EDA
-We created only basic lineplots with the data we had available, as time did not permit shuffling the dataframes to organize the data by country, rather than by metric.
-
-### Findings
-With what little data we have available to us, we note a couple of trends. Among our sample, education outcomes appear to be on the rise, year over year, while wealth inequality is either stagnant, oscillatory, or increasing. **The lack of a clear trend on the part of wealth inequality makes it difficult to draw any conclusions regarding a relationship between the two.** In addition, while the Gini coefficient is rising for most of our sample, the share of national wealth among the top 10% does not appear to rise at a comparable rate, suggesting that perhaps more of the national wealth share has been distributed among the 50th to 90th percentiles of the population, which could mean higher outcomes for a portion of the population. Gender bias does not appear to have an impact either, as the percent attainment of a Bachelor's degree appears to take the same ratio for men and women over time.
-
-### Next Steps
-A more careful analysis in the future would see the dataframes shuffled so that each one represents a different nation with more complete data and perhaps some more accurate imputation techniques to cover missing data. Incorporating more basic metrics for education outcomes, such as literacy rate, secondary school completion rate, and math achievement by the end of secondary education could yield more accurate results.
-
-Further, if an apt covariance were to be found with more complete data, we could create various regression models to determine just how influential education outcomes and wealth inequality are on each other.
+**Contact:** [GitHub @dmehta94](https://github.com/dmehta94) | [LinkedIn](https://www.linkedin.com/in/devalmehta94)
